@@ -1,0 +1,82 @@
+:root {
+  --color-bg-base: #F7F4EE;
+  --color-bg-elevated: #FFFDF9;
+  --color-bg-muted: #EFE9DF;
+  --color-text-primary: #1F1A17;
+  --color-text-secondary: #5F564F;
+  --color-text-muted: #867A70;
+  --color-border-subtle: #E4DACE;
+  --color-border-strong: #CDBCAA;
+
+  --color-accent-orange: #F28A5B;
+  --color-accent-purple: #6D5EF6;
+  --color-accent-blue: #5BA7F2;
+  --color-accent-mint: #67C6AC;
+  --color-accent-gold: #E7B65E;
+  --color-accent-coral: #F06C78;
+
+  --surface-orange-soft: #FFF1E8;
+  --surface-purple-soft: #F1EEFF;
+  --surface-blue-soft: #EEF7FF;
+  --surface-mint-soft: #EAF9F4;
+  --surface-gold-soft: #FFF7E8;
+  --surface-coral-soft: #FFF0F2;
+
+  --gradient-hero: linear-gradient(135deg, #FFF7E8 0%, #F1EEFF 45%, #EEF7FF 100%);
+  --gradient-orange-glow: linear-gradient(135deg, #FFF1E8 0%, #F28A5B 100%);
+  --gradient-purple-glow: linear-gradient(135deg, #F1EEFF 0%, #6D5EF6 100%);
+  --gradient-blue-glow: linear-gradient(135deg, #EEF7FF 0%, #5BA7F2 100%);
+  --gradient-mint-glow: linear-gradient(135deg, #EAF9F4 0%, #67C6AC 100%);
+
+  --font-heading: 'Inter', 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --text-hero: clamp(3rem, 6vw, 6rem);
+  --text-h1: clamp(2.5rem, 4.5vw, 4.5rem);
+  --text-h2: clamp(2rem, 3.5vw, 3rem);
+  --text-h3: 1.75rem;
+  --text-body-lg: 1.125rem;
+  --text-body: 1rem;
+  --text-caption: 0.8125rem;
+
+  --leading-tight: 1.05;
+  --leading-heading: 1.1;
+  --leading-body: 1.6;
+
+  --space-xxs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+  --space-5xl: 8rem;
+  --space-page-x: clamp(1.25rem, 3vw, 3rem);
+  --space-section-y: min(12vh, 7rem);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2.25rem;
+  --radius-pill: 9999px;
+
+  --shadow-soft: 0 8px 30px rgba(31, 26, 23, 0.06);
+  --shadow-medium: 0 18px 50px rgba(31, 26, 23, 0.10);
+
+  --motion-fast: 180ms;
+  --motion-base: 280ms;
+  --motion-slow: 420ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}

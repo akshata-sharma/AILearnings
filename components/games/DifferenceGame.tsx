@@ -109,7 +109,8 @@ export default function DifferenceGame({
             color: "var(--color-text-primary)",
           }}
         >
-          Spot the differences between design and production
+          {config.instruction ??
+            "Spot the differences between design and production"}
         </p>
         <span
           className="font-mono font-medium"
@@ -128,14 +129,14 @@ export default function DifferenceGame({
           {/* Figma panel — view only */}
           <ImagePanel
             src={config.imageA}
-            label="Figma Design"
+            label={config.imageALabel ?? "Figma Design"}
             accentColor={accentColor}
           />
 
           {/* Production panel — clickable on the image area */}
           <ClickableImagePanel
             src={config.imageB}
-            label="Production"
+            label={config.imageBLabel ?? "Production"}
             accentColor={accentColor}
             onClick={handleClick}
             hotspots={config.hotspots}
@@ -167,6 +168,17 @@ export default function DifferenceGame({
           >
             All differences found!
           </p>
+          {config.explanation && (
+            <p
+              className="mt-2"
+              style={{
+                fontSize: "var(--text-body-sm)",
+                color: "var(--color-text-secondary)",
+              }}
+            >
+              {config.explanation}
+            </p>
+          )}
         </motion.div>
       )}
 

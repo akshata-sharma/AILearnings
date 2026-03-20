@@ -2,7 +2,8 @@
 
 import { useReducer, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { ClassificationConfig } from "@/types/learning";
+import type { ClassificationConfig, CategorizeConfig } from "@/types/learning";
+import { categorizeToClassification } from "@/lib/gameConfigAdapters";
 import { shuffle, validateClassification } from "@/lib/gameHelpers";
 import { useConfetti } from "@/lib/useConfetti";
 import ConfettiCanvas from "@/components/shared/ConfettiCanvas";
@@ -10,7 +11,7 @@ import { useSiteContext } from "@/lib/SiteContext";
 import { designTokens } from "@/lib/design-tokens";
 
 interface Props {
-  config: ClassificationConfig;
+  config: ClassificationConfig | CategorizeConfig;
   sectionId: string;
   accentColor: string;
   onNextSection?: () => void;
@@ -60,10 +61,13 @@ export default function ClassificationGame({
   accentColor,
   onNextSection,
 }: Props) {
+  const cfg =
+    config.type === "categorize" ? categorizeToClassification(config) : config;
+
   const { markSectionComplete, unmarkSectionComplete } = useSiteContext();
   const { canvasRef, triggerConfetti } = useConfetti();
 
-  const shuffledItems = useMemo(() => shuffle(config.items), [config.items]);
+  const shuffledItems = useMemo(() => shuffle(cfg.items), [cfg.items]);
 
   const [state, dispatch] = useReducer(reducer, {
     placements: {},
@@ -84,13 +88,13 @@ export default function ClassificationGame({
 
   const handleCheck = useCallback(() => {
     if (unplacedItems.length > 0) return;
-    const result = validateClassification(state.placements, config.items);
+    const result = validateClassification(state.placements, cfg.items);
     dispatch({ type: "CHECK", isCorrect: result.isCorrect, itemResults: result.itemResults });
     if (result.isCorrect) {
       markSectionComplete(sectionId);
       triggerConfetti();
     }
-  }, [state.placements, config.items, unplacedItems.length, sectionId, markSectionComplete, triggerConfetti]);
+  }, [state.placements, cfg.items, unplacedItems.length, sectionId, markSectionComplete, triggerConfetti]);
 
   const handleReplay = useCallback(() => {
     dispatch({ type: "RESET" });
@@ -102,7 +106,7 @@ export default function ClassificationGame({
       if (state.status === "success") return;
 
       const currentCat = state.placements[itemId];
-      const catIds = config.categories.map((c) => c.id);
+      const catIds = cfg.categories.map((c) => c.id);
 
       if (!currentCat) {
         dispatch({ type: "PLACE", itemId, categoryId: catIds[0] });
@@ -115,7 +119,7 @@ export default function ClassificationGame({
         }
       }
     },
-    [state.placements, state.status, config.categories]
+    [state.placements, state.status, cfg.categories]
   );
 
   return (
@@ -131,7 +135,7 @@ export default function ClassificationGame({
           color: "var(--color-text-primary)",
         }}
       >
-        {config.instruction}
+        {cfg.instruction}
       </p>
 
       {/* Unplaced items pool */}
@@ -152,7 +156,7 @@ export default function ClassificationGame({
 
       {/* Category buckets */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {config.categories.map((cat) => {
+        {cfg.categories.map((cat) => {
           const items = getItemsInCategory(cat.id);
           return (
             <div
@@ -290,12 +294,12 @@ export default function ClassificationGame({
           >
             All sorted correctly!
           </p>
-          {config.explanation && (
+          {cfg.explanation && (
             <p
               className="mt-1"
               style={{ fontSize: "var(--text-body-sm)", color: "var(--color-text-secondary)" }}
             >
-              {config.explanation}
+              {cfg.explanation}
             </p>
           )}
         </motion.div>

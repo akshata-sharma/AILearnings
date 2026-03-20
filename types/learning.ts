@@ -6,6 +6,10 @@ export type GameType =
   | "ordering"
   | "classification"
   | "matching"
+  | "categorize"
+  | "rank-order"
+  | "spot-the-difference"
+  | "match-following"
   | "none";
 
 export type SectionLayout =
@@ -42,6 +46,10 @@ export interface DifferenceConfig {
   imageB: string;
   hotspots: DifferenceHotspot[];
   totalDifferences: number;
+  instruction?: string;
+  explanation?: string;
+  imageALabel?: string;
+  imageBLabel?: string;
 }
 
 export interface OrderingItem {
@@ -50,10 +58,11 @@ export interface OrderingItem {
 }
 
 export interface OrderingConfig {
-  type: "ordering";
+  type: "ordering" | "rank-order";
   instruction: string;
   items: OrderingItem[];
   correctOrder: string[];
+  explanation?: string;
 }
 
 export interface ClassificationCategory {
@@ -75,6 +84,44 @@ export interface ClassificationConfig {
   explanation?: string;
 }
 
+export interface CategorizeConfig {
+  type: "categorize";
+  instruction: string;
+  categories: string[];
+  items: ClassificationItem[];
+  explanation?: string;
+}
+
+export interface SpotDifferenceItem {
+  id: string;
+  description: string;
+}
+
+export interface SpotTheDifferenceConfig {
+  type: "spot-the-difference";
+  instruction: string;
+  images: {
+    before: { src: string; label: string };
+    after: { src: string; label: string };
+  };
+  totalDifferences: number;
+  differences: SpotDifferenceItem[];
+  explanation?: string;
+}
+
+export interface MatchFollowingPair {
+  id: string;
+  left: string;
+  right: string;
+}
+
+export interface MatchFollowingConfig {
+  type: "match-following";
+  instruction: string;
+  pairs: MatchFollowingPair[];
+  explanation?: string;
+}
+
 export interface MatchPair {
   prompt: string;
   match: string;
@@ -92,7 +139,10 @@ export type GameConfig =
   | DifferenceConfig
   | OrderingConfig
   | ClassificationConfig
-  | MatchConfig;
+  | CategorizeConfig
+  | SpotTheDifferenceConfig
+  | MatchConfig
+  | MatchFollowingConfig;
 
 /* ── Section & Site Content ── */
 

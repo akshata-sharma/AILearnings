@@ -1,6 +1,9 @@
 import { designTokens } from "@/lib/design-tokens";
 import type { SiteContent } from "@/types/learning";
 
+const IMG_FIGMA = "/AILearnings/games/difference/figma.png";
+const IMG_PROD = "/AILearnings/games/difference/prod.png";
+
 export const siteContent: SiteContent = {
   hero: {
     title: "What We Learned Vibe Coding Extranet",
@@ -13,13 +16,13 @@ export const siteContent: SiteContent = {
 
   learnings: [
     {
-      id: "garbage-in-garbage-out",
-      navLabel: "Garbage In",
-      header: "Garbage In, Garbage Out",
+      id: "the-fork-in-the-road",
+      navLabel: "The Fork",
+      header: "The Fork in the Road",
       paragraph:
-        "Our first instinct was to prompt AI the way we speak casually in meetings: 'build the bookings page' or 'make this screen like the design.' The output looked impressive at first, but the cracks showed quickly. Filters behaved differently from what we wanted, actions were guessed instead of defined, and business rules were silently skipped. The quality jump happened only when we started writing prompts like mini-specs: what the user sees, what the user can do, what data is needed, what states exist, and what must not change. AI did not get smarter in that moment — our instructions got clearer.",
+        "Not every feature belongs in an AI workflow. The decision of how to build something matters as much as what to build. AI works best when the feature is bounded, exploratory, and where iteration is low-cost — a new screen, a prototype, a repetitive UI pattern. Traditional engineering is the right call when the feature touches auth, payments, or sensitive data, deeply integrates with existing systems, or when mistakes are expensive to reverse. Defaulting to AI without making this call first is where projects quietly lose time.",
       insight:
-        "The first output is usually a mirror of the prompt. If the ask is fuzzy, the code will be fuzzy too.",
+        "The first decision isn't how to prompt. It's whether to prompt at all.",
       layout: "interactive-quiz",
       gameType: "multiple-choice",
       accentColor: designTokens.colors.accent.orange,
@@ -27,437 +30,510 @@ export const siteContent: SiteContent = {
       gameConfig: {
         type: "multiple-choice",
         question:
-          "Which prompt is more likely to generate a reliable first version of the Bookings Page?",
+          "The team is about to start building the Rooms and Rate Plans page. Which of these should they build through traditional engineering first, before involving AI?",
         options: [
           {
             id: "a",
-            text: "Build a bookings page for extranet.",
+            text: "The default table layout showing room names and rate plan chips",
           },
           {
             id: "b",
-            text: "Build an extranet bookings page with a default table view, filters for booking status and date range, row click behavior to open booking details, and preserve filter state when user returns from details view. Reuse existing table and filter components.",
+            text: "The rate plan deactivation logic that updates booking eligibility downstream",
           },
           {
             id: "c",
-            text: "Make a page like Figma and keep it simple.",
+            text: "The empty state screen when no rooms are listed",
           },
           {
             id: "d",
-            text: "Build bookings page quickly. We can fix later.",
+            text: "The Add rate plan button and its hover state",
           },
         ],
         correctId: "b",
         explanation:
-          "The strongest prompt gives AI enough structure to work with: UI, behavior, state expectations, and reuse constraints. That reduces guessing and avoids major rework later.",
+          "Deactivation logic has downstream consequences — it affects bookings, availability, and partner trust. That kind of precision needs deliberate engineering design before AI generation.",
       },
     },
-
     {
-      id: "design-principles",
-      navLabel: "Design Principles",
-      header: "Good Vibe Coding Starts Before the Prompt",
+      id: "garbage-in-garbage-out",
+      navLabel: "Garbage In",
+      header: "Garbage In, Garbage Out",
       paragraph:
-        "The Bookings Page taught us that AI quality is tightly linked to the quality of both design inputs and engineering discipline. On the design side, loose Figma files created confusion: decimal border radius values, random hex gradients, inconsistent text styles, and components that looked similar but were not actually standardized. On the tech side, AI needed equally strong guidance: reuse components first, define contracts before building screens, prefer shared types over local duplication, and avoid inline logic that becomes impossible to trace later. Vibe coding feels fast only when the system underneath is disciplined.",
+        "The quality of AI output mirrors the quality of the instruction. Casual prompts — the kind you'd say out loud in a meeting — produce code that looks impressive at first but breaks under real conditions. Filters behave unexpectedly, business rules get skipped, and edge cases are silently ignored. The gap closes when prompts are written like mini-specs: what the user sees, what they can do, what data is needed, what states exist, and crucially — what must not change. Locking down the off-limits pieces is as important as describing what to build, because AI fills every silence with its best guess.",
+      insight: "If the ask is fuzzy, the code will be fuzzy too.",
+      layout: "interactive-quiz",
+      gameType: "multiple-choice",
+      accentColor: designTokens.colors.accent.purple,
+      accentSurface: designTokens.colors.surface.purpleSoft,
+      gameConfig: {
+        type: "multiple-choice",
+        question:
+          "Which prompt is most likely to generate a reliable first version of the Rooms and Rate Plans page?",
+        options: [
+          {
+            id: "a",
+            text: "Build a rooms and rate plans page for the hotel extranet.",
+          },
+          {
+            id: "b",
+            text: "Build the Rooms and Rate Plans page with a default table showing room name, room details, and rate plan chips per row. Include an Active/Unlisted tab switch, an Add rate plan action per row, a three-dot overflow menu, and greyed-out chips for inactive plans. Reuse existing table and chip components.",
+          },
+          {
+            id: "c",
+            text: "Make a page like the Figma design. Keep it clean and simple.",
+          },
+          { id: "d", text: "Build it fast, we will fix the details later." },
+        ],
+        correctId: "b",
+        explanation:
+          "The strongest prompt defines the UI structure, the states, the actions, and the reuse constraints — leaving AI with little room to guess or skip.",
+      },
+    },
+    {
+      id: "clean-inputs-clean-outputs",
+      navLabel: "Clean Inputs",
+      header: "Clean Inputs, Clean Outputs",
+      paragraph:
+        "AI quality is tightly linked to the discipline of the system feeding it. On the design side, loose files create confusion — inconsistent spacing, random hex colors, components that look similar but aren't standardized. On the engineering side, AI needs equally strong guidance: reuse existing components, define shared data contracts before building screens, avoid duplicating logic across files. When both inputs are disciplined, AI generates output that fits naturally into the existing system. When they're not, every generation adds a little more drift.",
       insight:
         "AI works best when design is tokenized and engineering is opinionated.",
       layout: "interactive-quiz",
-      gameType: "classification",
-      accentColor: designTokens.colors.accent.gold,
-      accentSurface: designTokens.colors.surface.goldSoft,
-      gameConfig: {
-        type: "classification",
-        instruction:
-          "Sort each practice into the right bucket: 'Strong Vibe Coding Practice' or 'Risky Practice'.",
-        categories: [
-          { id: "strong", label: "Strong Vibe Coding Practice" },
-          { id: "risky", label: "Risky Practice" },
-        ],
-        items: [
-          {
-            id: "item-1",
-            text: "Use a shared design library with Auto Layout and defined typography tokens",
-            correctCategory: "strong",
-          },
-          {
-            id: "item-2",
-            text: "Use random hex colors for gradients whenever the design needs a nice visual",
-            correctCategory: "risky",
-          },
-          {
-            id: "item-3",
-            text: "Define shared interfaces and reuse components before generating new UI",
-            correctCategory: "strong",
-          },
-          {
-            id: "item-4",
-            text: "Let AI create a new button inline if it looks close enough",
-            correctCategory: "risky",
-          },
-          {
-            id: "item-5",
-            text: "Use design tokens for font size, radius, spacing, and border weight",
-            correctCategory: "strong",
-          },
-          {
-            id: "item-6",
-            text: "Keep business rules inside individual screens because it is faster to generate",
-            correctCategory: "risky",
-          },
-        ],
-        explanation:
-          "The pattern is simple: consistency helps AI reuse and compose. Arbitrary design values and scattered engineering decisions force AI to improvise.",
-      },
-    },
-
-    {
-      id: "pick-the-difference",
-      navLabel: "Pick Difference",
-      header: "Looks Done. Isn’t Done.",
-      paragraph:
-        "This was one of the most humbling moments in the project. AI could generate a Bookings Page that looked complete in a screenshot: table, cards, buttons, even decent spacing. But when we put design and generated output side by side, small inconsistencies were everywhere. Border radius was slightly off. Font weights did not match. Icons were replaced or simplified. Gradients were approximated instead of reused. None of these issues alone looked critical, but together they made the page feel unfinished. We learned that AI is very good at getting to 'close enough' — and product teams still have to carry it to 'production ready.'",
-      insight:
-        "The last 20% of quality is rarely one big fix. It is a series of small, careful corrections.",
-      layout: "image-comparison",
-      gameType: "difference",
-      accentColor: designTokens.colors.accent.purple,
-      accentSurface: designTokens.colors.surface.purpleSoft,
-      gameConfig: {
-        type: "difference",
-        imageA: "/games/difference/figma.png",
-        imageB: "/games/difference/prod.png",
-        hotspots: [
-          {
-            x: 0.055,
-            y: 0.06,
-            radius: 0.06,
-            label: "Back button style and text treatment do not match",
-          },
-          {
-            x: 0.63,
-            y: 0.34,
-            radius: 0.07,
-            label: "Dropdown chevron or affordance is missing",
-          },
-          {
-            x: 0.62,
-            y: 0.53,
-            radius: 0.07,
-            label: "Placeholder state is incorrect — '0' used instead of a selection label",
-          },
-          {
-            x: 0.70,
-            y: 0.72,
-            radius: 0.07,
-            label: "Action controls use the wrong visual treatment",
-          },
-          {
-            x: 0.36,
-            y: 0.24,
-            radius: 0.06,
-            label: "Typography weight and hierarchy differ from design",
-          },
-          {
-            x: 0.81,
-            y: 0.18,
-            radius: 0.06,
-            label: "Spacing and border radius are visually inconsistent",
-          },
-        ],
-        totalDifferences: 6,
-      },
-    },
-
-    {
-      id: "break-it-down",
-      navLabel: "Break It Down",
-      header: "A Bookings Page Is Not Just a Table",
-      paragraph:
-        "When we first asked AI to build the Bookings Page, it did the most obvious part well: a default list view with rows and columns. But a real feature is more than its default screen. Users need filters, pagination, row-level actions, detail views, empty states, loading states, and return behavior. AI tends to optimize for visible completion, which means it can produce a clean-looking first screen while silently skipping the action layer that makes the feature useful. We started getting better results when we stopped treating the feature as one thing and instead broke it into a default screen plus behavior layers.",
-      insight:
-        "The UI is only the surface. The real feature is the behavior behind it.",
-      layout: "standard",
-      gameType: "ordering",
+      gameType: "categorize",
       accentColor: designTokens.colors.accent.blue,
       accentSurface: designTokens.colors.surface.blueSoft,
       gameConfig: {
-        type: "ordering",
+        type: "categorize",
         instruction:
-          "Arrange the steps in the best order for building the Extranet Bookings Page with AI.",
+          "Sort each practice into the right bucket: Strong Vibe Coding Practice or Risky Practice.",
+        categories: ["Strong Vibe Coding Practice", "Risky Practice"],
         items: [
-          { id: "step-1", text: "Define the booking data contract and shared interfaces" },
-          { id: "step-2", text: "Build the default bookings table screen" },
-          { id: "step-3", text: "Add filters, sorting, and pagination behavior" },
-          { id: "step-4", text: "Add row click, detail view, and action-level behavior" },
-          { id: "step-5", text: "Handle state persistence, loading, and return behavior" },
-          { id: "step-6", text: "Integrate, test, and validate the full user flow" },
-        ],
-        correctOrder: [
-          "step-1",
-          "step-2",
-          "step-3",
-          "step-4",
-          "step-5",
-          "step-6",
-        ],
-      },
-    },
-
-    {
-      id: "guardrails-matter",
-      navLabel: "Guardrails",
-      header: "AI Does Not Just Follow Instructions. It Also Improvises.",
-      paragraph:
-        "One repeated pattern we saw was that AI would often change more than we asked for. A request to update a button on the Bookings Page could lead to new inline styles, duplicate components, or unintended changes in adjacent flows. This was not because the model was careless — it was because our instructions left room for interpretation. The fix was surprisingly practical: specify exact files, specify the component to reuse, state what should not change, and explicitly block unrelated edits. Guardrails did not slow us down; they made the output predictable enough to build on.",
-      insight:
-        "The safest prompt is not the shortest one. It is the one with the least room for accidental creativity.",
-      layout: "interactive-quiz",
-      gameType: "multiple-choice",
-      accentColor: designTokens.colors.accent.coral,
-      accentSurface: designTokens.colors.surface.coralSoft,
-      gameConfig: {
-        type: "multiple-choice",
-        question:
-          "Which instruction gives AI the strongest guardrails for a small UI update?",
-        options: [
           {
-            id: "a",
-            text: "Update the booking action button styling.",
+            id: "1",
+            text: "Use a shared RatePlan type across all modules that reference rate plan data",
+            correctCategory: "Strong Vibe Coding Practice",
           },
           {
-            id: "b",
-            text: "Update the booking action button and improve surrounding layout if needed.",
+            id: "2",
+            text: "Let AI create a new chip component inline if the existing one is close enough",
+            correctCategory: "Risky Practice",
           },
           {
-            id: "c",
-            text: "Update only the BookingStatusButton component to match the latest design. Do not modify other components, API contracts, or page layout.",
+            id: "3",
+            text: "Define spacing, border radius, and color as design tokens before generating UI",
+            correctCategory: "Strong Vibe Coding Practice",
           },
           {
-            id: "d",
-            text: "Make the page cleaner and more modern.",
+            id: "4",
+            text: "Keep room deactivation logic inside the table row component for speed",
+            correctCategory: "Risky Practice",
+          },
+          {
+            id: "5",
+            text: "Reuse the existing RoomCard component rather than generating a new one",
+            correctCategory: "Strong Vibe Coding Practice",
+          },
+          {
+            id: "6",
+            text: "Use random hex values for greyed-out inactive rate plan chips",
+            correctCategory: "Risky Practice",
           },
         ],
-        correctId: "c",
         explanation:
-          "The best instruction defines scope, the exact component to update, and what must remain untouched. That reduces unintended changes and keeps the diff reviewable.",
+          "Disciplined inputs — tokenized design and opinionated engineering — are what allow AI to generate output that fits the system rather than drifting from it.",
       },
     },
-
     {
-      id: "context-is-oxygen",
-      navLabel: "Context",
-      header: "Better Context, Better Fixes",
+      id: "the-blueprint",
+      navLabel: "The Blueprint",
+      header: "The Blueprint",
       paragraph:
-        "When the Bookings Page started breaking, our weakest prompts sounded like this: 'filters are not working' or 'state is broken.' Those prompts forced AI to guess the problem from too little information. The quality of fixes improved dramatically when we started attaching evidence: screenshots, console logs, stale time settings, file paths, current behavior, and expected behavior. Context turned debugging from guessing into diagnosis. AI was not just writing code anymore — it was reasoning over the evidence we gave it.",
+        "Before generating any screen or fix, write a plan first — not a vague outline, but a structured document: what the screen needs to do, broken into discrete tasks, each with a test case attached. The first time teams skip this, they generate a working UI but have no way to validate whether states, flows, and edge cases are actually correct. The plan also needs to stay alive — updated before every significant change, not after. When the order is reversed and the plan is updated before prompting, output becomes easier to validate and decisions become easier to trace.",
       insight:
-        "The fastest debug cycle starts with a well-framed bug, not a rushed fix request.",
+        "A plan written once and forgotten is just a document. A plan kept alive is a steering system.",
       layout: "interactive-quiz",
-      gameType: "multiple-choice",
+      gameType: "rank-order",
       accentColor: designTokens.colors.accent.mint,
       accentSurface: designTokens.colors.surface.mintSoft,
       gameConfig: {
-        type: "multiple-choice",
-        question:
-          "A user says filters are not retained after returning from Booking Details. What is the most helpful prompt to give AI?",
-        options: [
+        type: "rank-order",
+        instruction:
+          "Arrange the steps in the right order for starting a new screen or fixing a complex issue with AI.",
+        items: [
+          { id: "1", text: "Write the requirements for the screen or fix" },
+          { id: "2", text: "Break requirements into discrete tasks" },
+          { id: "3", text: "Write test cases for each task" },
+          { id: "4", text: "Generate the first version with AI" },
+          { id: "5", text: "Validate output against test cases" },
+          { id: "6", text: "Update the plan with decisions made" },
+        ],
+        correctOrder: ["1", "2", "3", "4", "5", "6"],
+        explanation:
+          "Planning before generating — and updating that plan as decisions are made — is what keeps AI output aligned with what you actually need.",
+      },
+    },
+    {
+      id: "the-iceberg",
+      navLabel: "The Iceberg",
+      header: "The Iceberg",
+      paragraph:
+        "A generated screen can look complete in a screenshot while everything beneath it is still missing. The default view gets built well — table, cards, buttons, spacing. But the real feature lives in the behavior layer: filters, pagination, empty states, loading states, error paths, row-level actions, and return flows. This is compounded when the feature is stateful — when it changes based on time, navigation, or user action. A static review page is easy to generate. A rooms and rate plans table that reflects server state, handles deactivation correctly, and behaves correctly when you navigate away and come back is an entirely different problem.",
+      insight:
+        "The UI is only the surface. The real feature is the behavior behind it.",
+      layout: "interactive-quiz",
+      gameType: "rank-order",
+      accentColor: designTokens.colors.accent.gold,
+      accentSurface: designTokens.colors.surface.goldSoft,
+      gameConfig: {
+        type: "rank-order",
+        instruction:
+          "Arrange the steps in the right order for building the Rooms and Rate Plans page with AI.",
+        items: [
           {
-            id: "a",
-            text: "Filters are broken. Fix it.",
+            id: "1",
+            text: "Build the default table screen — room names, rate plan chips, tabs, and action buttons",
           },
           {
+            id: "2",
+            text: "Define the room and rate plan data contract and shared interfaces",
+          },
+          {
+            id: "3",
+            text: "Add behavior — chip click actions, add rate plan flow, deactivation flow",
+          },
+          {
+            id: "4",
+            text: "Add filters, sorting, and tab switching behavior",
+          },
+          {
+            id: "5",
+            text: "Handle empty states, loading states, error paths, and return navigation",
+          },
+          {
+            id: "6",
+            text: "Integrate, test, and validate the full user flow",
+          },
+        ],
+        correctOrder: ["2", "1", "4", "3", "5", "6"],
+        explanation:
+          "Building in layers — contracts first, then the default screen, then behavior, then states and edge cases — gives AI a clear scope at each step and prevents the illusion of completion.",
+      },
+    },
+    {
+      id: "the-pareto-trap",
+      navLabel: "The Pareto Trap",
+      header: "The Pareto Trap",
+      paragraph:
+        "The first version of a feature appears fast. Table, chips, actions, tabs — all generated in one session. That speed creates a false sense of progress. The real effort begins after generation: production readiness, edge cases, real data behavior, polish, and the small corrections that together make the difference between something that works in a demo and something that works for real users. Generation is the starting point, not the finish line.",
+      insight:
+        "Generation is fast. Production readiness is slow. Budget for both.",
+      layout: "interactive-quiz",
+      gameType: "spot-the-difference",
+      accentColor: designTokens.colors.accent.coral,
+      accentSurface: designTokens.colors.surface.coralSoft,
+      gameConfig: {
+        type: "spot-the-difference",
+        instruction:
+          "Spot the differences between the Figma design and the coded output. Click on each difference you find.",
+        images: {
+          before: { src: IMG_FIGMA, label: "Figma Design" },
+          after: { src: IMG_PROD, label: "Production" },
+        },
+        totalDifferences: 8,
+        differences: [
+          {
+            id: "1",
+            description:
+              "Add room button — ghost grey outline in Figma vs solid orange fill in Production",
+          },
+          {
+            id: "2",
+            description:
+              "Room images — actual room photos in Figma vs grey placeholder rectangles in Production",
+          },
+          {
+            id: "3",
+            description:
+              "Notification bell — present in Figma header vs missing in Production",
+          },
+          {
+            id: "4",
+            description:
+              "Active rooms badge count — 23 in Figma vs 7 in Production",
+          },
+          {
+            id: "5",
+            description:
+              "Active rooms badge color — blue fill in Figma vs green fill in Production",
+          },
+          {
+            id: "6",
+            description:
+              "Unlisted rooms count — 23 shown in Figma vs no count shown in Production",
+          },
+          {
+            id: "7",
+            description:
+              "Search bar — absent in Figma vs present below tabs in Production",
+          },
+          {
+            id: "8",
+            description:
+              "Executive Room rate plans — 5 chips in Figma vs 5 chips plus a +3 more overflow chip in Production",
+          },
+        ],
+        explanation:
+          "The last 20% of quality is rarely one big fix. It is a series of small, careful corrections that take the feature from generated to production-ready.",
+      },
+    },
+    {
+      id: "the-full-picture",
+      navLabel: "The Full Picture",
+      header: "The Full Picture",
+      paragraph:
+        "Breaking a feature into smaller pieces makes generation easier and more accurate. But the parts still need to behave as one product. Separately built modules often have mismatched interfaces, duplicated types, and logic that solves each subfeature locally without understanding the whole. Integration is not the final cleanup step — it is its own build phase with its own spec. The features that felt clean in isolation consistently revealed new problems the moment they were connected.",
+      insight:
+        "A feature broken into parts still needs one layer of thought that puts it all back together.",
+      layout: "interactive-quiz",
+      gameType: "match-following",
+      accentColor: designTokens.colors.accent.orange,
+      accentSurface: designTokens.colors.surface.orangeSoft,
+      gameConfig: {
+        type: "match-following",
+        instruction:
+          "Match each integration problem to the part of the Rooms and Rate Plans page it most directly affects.",
+        pairs: [
+          {
+            id: "1",
+            left: "Chip component uses a local type instead of the shared RatePlan contract",
+            right: "Shared types and contracts",
+          },
+          {
+            id: "2",
+            left: "Deactivation API call succeeds but the table still shows the old plan as active",
+            right: "API refresh and cache invalidation",
+          },
+          {
+            id: "3",
+            left: "Add rate plan modal sends a different room ID format than the table expects",
+            right: "Cross-module interface alignment",
+          },
+          {
+            id: "4",
+            left: "User deactivates a plan, navigates back, and the chip still appears active",
+            right: "State persistence and return behavior",
+          },
+        ],
+        explanation:
+          "Integration is its own build phase. Shared types, cache invalidation, interface alignment, and return state are all distinct problems that only surface when the parts are connected.",
+      },
+    },
+    {
+      id: "the-loose-thread",
+      navLabel: "The Loose Thread",
+      header: "The Loose Thread",
+      paragraph:
+        "One small update can change more than you asked for. A prompt to adjust a button can quietly introduce new inline styles, duplicate a component, or alter behavior in an adjacent flow. This is compounded during debugging — a weak prompt like 'chip state is broken, fix it' forces AI to guess the problem, and the guess often introduces a new issue elsewhere. Both problems share the same root: instructions that leave too much room for interpretation. Locking down scope before generating, and loading evidence before debugging, made both types of prompts significantly more reliable.",
+      insight:
+        "The fastest path to a good fix is a well-scoped instruction, not a fast one.",
+      layout: "interactive-quiz",
+      gameType: "multiple-choice",
+      accentColor: designTokens.colors.accent.purple,
+      accentSurface: designTokens.colors.surface.purpleSoft,
+      gameConfig: {
+        type: "multiple-choice",
+        question:
+          "The inactive rate plan chip is showing the wrong visual state after a room deactivation. Which prompt gives AI the best chance of fixing it correctly?",
+        options: [
+          { id: "a", text: "The chip state is broken. Fix it." },
+          {
             id: "b",
-            text: "When user opens Booking Details and comes back, selected filters disappear even though stale time is 5 minutes. Here are the relevant files, current TanStack Query settings, and a screen recording. First explain the likely cause, then suggest the safest fix.",
+            text: "After calling the deactivation API, the RatePlanChip component still renders as active. Here is the component file, the current API response shape, and the cache invalidation config. Explain the likely cause first, then suggest the safest fix without modifying the chip's click handler or the shared RatePlan type.",
           },
           {
             id: "c",
-            text: "Please improve the page state management.",
+            text: "Please improve the state management on the Rooms page.",
           },
           {
             id: "d",
-            text: "Make sure filters always work properly.",
+            text: "Make sure chips always show the correct state.",
           },
         ],
         correctId: "b",
         explanation:
-          "The strongest debugging prompt includes the user flow, the suspected technical context, relevant files, and asks AI to diagnose before changing anything.",
+          "The strongest debug prompt brings evidence, isolates the component, and explicitly protects the parts that must not change — turning a guessing exercise into a diagnosis.",
       },
     },
-
     {
-      id: "static-vs-stateful",
-      navLabel: "Stateful Systems",
-      header: "Static Screens Are Easy. Stateful Features Are Not.",
+      id: "the-second-opinion",
+      navLabel: "The Second Opinion",
+      header: "The Second Opinion",
       paragraph:
-        "Some screens were surprisingly easy for AI to generate. A finance summary page, a review page, a static card layout — those came out accurately in one or two attempts. The Bookings Page was different because it lived across time, not just in one frame. Filters had to persist. API state had to be reconciled. Users could move forward and back. Action states needed to reflect server truth. That is the difference between a static screen and a stateful product surface. We stopped expecting one-shot generation once we understood that distinction.",
-      insight:
-        "If a feature changes based on time, navigation, or user action, the real work is usually in the state model.",
-      layout: "interactive-quiz",
-      gameType: "classification",
-      accentColor: designTokens.colors.accent.purple,
-      accentSurface: designTokens.colors.surface.purpleSoft,
-      gameConfig: {
-        type: "classification",
-        instruction:
-          "Classify each example as a 'Mostly Static Screen' or a 'Stateful Feature'.",
-        categories: [
-          { id: "static", label: "Mostly Static Screen" },
-          { id: "stateful", label: "Stateful Feature" },
-        ],
-        items: [
-          {
-            id: "item-1",
-            text: "Finance summary page with fixed metric cards",
-            correctCategory: "static",
-          },
-          {
-            id: "item-2",
-            text: "Bookings table with filters, pagination, and return navigation",
-            correctCategory: "stateful",
-          },
-          {
-            id: "item-3",
-            text: "Verification review page with mostly display-only content",
-            correctCategory: "static",
-          },
-          {
-            id: "item-4",
-            text: "Booking action flow where row status changes after API response",
-            correctCategory: "stateful",
-          },
-        ],
-        explanation:
-          "Static screens are easier because the output is mostly visual. Stateful features require AI to reason about behavior across user actions and time.",
-      },
-    },
-
-    {
-      id: "plan-mode-reality",
-      navLabel: "Plan Mode",
-      header: "Planning Helped. But Planning Did Not Sustain Itself.",
-      paragraph:
-        "Plan mode gave us a strong start on larger features. It helped AI think through the Bookings Page in a more structured way, especially at the start of a new flow. But after one or two heavy generations, the behavior changed: the model drifted back into direct execution, stopped respecting earlier planning, and became more reactive to the latest instruction. That taught us a crucial lesson: planning cannot be delegated once and forgotten. The plan needs to stay alive through the workflow, either by re-anchoring the conversation or by updating the source documents that guide implementation.",
-      insight:
-        "A good plan is not a one-time input. It is a reference point that needs maintenance.",
-      layout: "standard",
-      gameType: "ordering",
-      accentColor: designTokens.colors.accent.blue,
-      accentSurface: designTokens.colors.surface.blueSoft,
-      gameConfig: {
-        type: "ordering",
-        instruction:
-          "Arrange the healthier workflow for using AI on a large feature.",
-        items: [
-          { id: "step-1", text: "Write or refresh the feature plan" },
-          { id: "step-2", text: "Generate one scoped part of the feature" },
-          { id: "step-3", text: "Review and validate the output" },
-          { id: "step-4", text: "Update the plan or docs with decisions" },
-          { id: "step-5", text: "Move to the next scoped part" },
-        ],
-        correctOrder: ["step-1", "step-2", "step-3", "step-4", "step-5"],
-      },
-    },
-
-    {
-      id: "ask-for-options",
-      navLabel: "Ask Options",
-      header: "The Best Fix Was Rarely the First Fix",
-      paragraph:
-        "A subtle but important shift in our workflow was this: instead of asking AI to directly implement the fix we had in mind, we started asking it for options first. This helped most when the bug touched architecture, not just UI. One example was return behavior on a form flow where data was being cleared intentionally, but stale cache prevented a fresh API call on remount. Our first two obvious fixes were not ideal. Only after asking AI to propose multiple approaches against our constraints did it surface a better option. The lesson was clear: the model is often more useful as a solution explorer before it becomes an implementer.",
+        "The first solution AI offers often works technically but introduces trade-offs that only become obvious later — fragile architecture, hard-to-trace logic, or a fix that solves one problem and creates two more. This is especially true when the issue touches how data flows or how components connect. The model is often more useful as a solution explorer than an implementer. Asking for options before asking for code surfaces better answers, and more importantly, it surfaces the trade-offs so you can choose with full information.",
       insight:
         "When the trade-off is architectural, ask for choices before you ask for code.",
       layout: "interactive-quiz",
       gameType: "multiple-choice",
-      accentColor: designTokens.colors.accent.gold,
-      accentSurface: designTokens.colors.surface.goldSoft,
+      accentColor: designTokens.colors.accent.blue,
+      accentSurface: designTokens.colors.surface.blueSoft,
       gameConfig: {
         type: "multiple-choice",
         question:
-          "You know two imperfect fixes for a state issue, but neither fully matches the requirement. What is the best next move?",
+          "The add rate plan flow is causing stale data in the table. Two fixes exist but both have side effects. What is the best next move?",
         options: [
           {
             id: "a",
-            text: "Pick the less risky of the two and implement immediately",
+            text: "Pick the less risky of the two fixes and implement immediately",
           },
           {
             id: "b",
-            text: "Ask AI for 4–5 possible approaches, then evaluate them against the actual product requirement before implementing",
+            text: "Ask AI to propose 3 to 4 approaches with trade-offs against the actual constraints, then choose",
           },
           {
             id: "c",
-            text: "Remove caching entirely so the bug disappears",
+            text: "Remove caching entirely so the problem disappears",
           },
           {
             id: "d",
-            text: "Ignore the issue until launch gets closer",
+            text: "Leave it for now and ship the rest of the feature",
           },
         ],
         correctId: "b",
         explanation:
-          "When the problem involves trade-offs, exploration comes before execution. Listing options helps reveal solutions that fit the requirement better than the first obvious fix.",
+          "When a fix has architectural consequences, generating options first surfaces better solutions and makes trade-offs visible before any code is written.",
       },
     },
-
     {
-      id: "integration-is-a-feature",
-      navLabel: "Integration",
-      header: "Breaking It Down Helps Build. It Does Not Automatically Help Connect.",
+      id: "the-mirage",
+      navLabel: "The Mirage",
+      header: "The Mirage",
       paragraph:
-        "Breaking features into smaller pieces made generation easier, but it introduced a second-order problem: integration. The Bookings Page could have a clean default screen, a separate filter module, a separate details view, and separate action APIs — but those parts still had to behave like one product. We repeatedly saw mismatched interfaces, duplicated types, and prompts that solved each subfeature locally without understanding the feature as a whole. That changed our view of integration. It was not the final step after all the 'real work.' It was its own feature with its own spec.",
+        "AI-generated code compiles, runs, and looks right — which makes it easy to trust more than you should. But generation optimizes for plausibility, not correctness. Logic can be subtly wrong, security gaps are rarely flagged, and patterns can be outdated. Data contracts go unvalidated, input constraints go unset, and downstream consequences of actions like deactivation are rarely considered. The danger isn't that AI produces obviously broken code. It's that it produces code that looks finished when it isn't.",
       insight:
-        "A feature that is broken into modules still needs one layer of thought that puts the modules back together.",
+        "The model optimizes for plausible. You are responsible for correct.",
       layout: "interactive-quiz",
-      gameType: "matching",
-      accentColor: designTokens.colors.accent.coral,
-      accentSurface: designTokens.colors.surface.coralSoft,
-      gameConfig: {
-        type: "matching",
-        instruction:
-          "Match each concern to the part of the Bookings experience it most directly affects.",
-        pairs: [
-          {
-            prompt: "Persisting selected filters when returning from details",
-            match: "State persistence and navigation behavior",
-          },
-          {
-            prompt: "Showing latest booking status after a row action",
-            match: "API refresh and integration logic",
-          },
-          {
-            prompt: "Avoiding duplicate booking interfaces across modules",
-            match: "Shared types and contracts",
-          },
-          {
-            prompt: "Opening booking details from the default table view",
-            match: "Table-to-detail interaction flow",
-          },
-        ],
-        explanation:
-          "Integration problems usually sit between modules, not inside one module. That is why they need explicit thinking rather than incidental fixes.",
-      },
-    },
-
-    {
-      id: "docs-first-fix-later",
-      navLabel: "Docs First",
-      header: "When the Docs Drifted, the Product Drifted",
-      paragraph:
-        "One of the quieter failures in the project was documentation drift. In the early phase, spec docs were useful because AI kept referring back to them. But once the team got into active fixing mode, we started prompting directly against code and stopped updating the docs regularly. A few weeks later, the documented version of the Bookings flow no longer matched the implemented one. That made future prompting weaker because the source of truth itself had become unreliable. The workflow improved only when we reversed the order: update the docs first, then make the fix. That kept the system understandable for both humans and AI.",
-      insight:
-        "Documentation is not just for handoff. In vibe coding, it is part of the steering system.",
-      layout: "standard",
-      gameType: "ordering",
+      gameType: "categorize",
       accentColor: designTokens.colors.accent.mint,
       accentSurface: designTokens.colors.surface.mintSoft,
       gameConfig: {
-        type: "ordering",
+        type: "categorize",
         instruction:
-          "Arrange the better workflow when a feature behavior needs to change.",
+          "Sort each item as Safe to ship as generated or Needs engineering review.",
+        categories: ["Safe to ship as generated", "Needs engineering review"],
         items: [
-          { id: "step-1", text: "Clarify the updated requirement" },
-          { id: "step-2", text: "Update the spec or source document" },
-          { id: "step-3", text: "Prompt AI to implement the change" },
-          { id: "step-4", text: "Review and validate the behavior" },
+          {
+            id: "1",
+            text: "Table layout and chip visual rendering",
+            correctCategory: "Safe to ship as generated",
+          },
+          {
+            id: "2",
+            text: "Rate plan type field with no validation on allowed values",
+            correctCategory: "Needs engineering review",
+          },
+          {
+            id: "3",
+            text: "Deactivation API call with no check for active bookings",
+            correctCategory: "Needs engineering review",
+          },
+          {
+            id: "4",
+            text: "Empty state UI when no rooms are listed",
+            correctCategory: "Safe to ship as generated",
+          },
+          {
+            id: "5",
+            text: "Add rate plan form with no input range or format constraints",
+            correctCategory: "Needs engineering review",
+          },
+          {
+            id: "6",
+            text: "Loading skeleton shown during API fetch",
+            correctCategory: "Safe to ship as generated",
+          },
         ],
-        correctOrder: ["step-1", "step-2", "step-3", "step-4"],
+        explanation:
+          "Generation optimizes for plausible. Engineering review is what catches the gaps that look fine but aren't — unvalidated contracts, missing constraints, and unconsidered downstream effects.",
+      },
+    },
+    {
+      id: "the-drift",
+      navLabel: "The Drift",
+      header: "The Drift",
+      paragraph:
+        "Plans, specs, and reference documents start useful and become unreliable the moment the team stops updating them. Once the source of truth drifts from the actual implementation, future prompts get weaker — AI is reasoning over a version of the product that no longer exists. The workflow that fixed this was counterintuitive: update the document before making the change, not after. That order keeps the system coherent for both humans and AI, and it forces a moment of clarity before every implementation decision.",
+      insight:
+        "In an AI workflow, documentation is not just for handoff. It is part of the steering system.",
+      layout: "interactive-quiz",
+      gameType: "rank-order",
+      accentColor: designTokens.colors.accent.gold,
+      accentSurface: designTokens.colors.surface.goldSoft,
+      gameConfig: {
+        type: "rank-order",
+        instruction:
+          "Arrange the correct workflow for when a feature behavior needs to change.",
+        items: [
+          { id: "1", text: "Clarify the updated requirement" },
+          { id: "2", text: "Update the spec or source document" },
+          { id: "3", text: "Prompt AI to implement the change" },
+          { id: "4", text: "Validate the output against the updated spec" },
+        ],
+        correctOrder: ["1", "2", "3", "4"],
+        explanation:
+          "Updating the spec before prompting — not after — keeps AI reasoning over the current version of the product, not a stale one.",
+      },
+    },
+    {
+      id: "the-playbook",
+      navLabel: "The Playbook",
+      header: "The Playbook",
+      paragraph:
+        "After enough cycles, the process stops feeling unpredictable. The patterns become clear: what to spec before prompting, how to break features down, when to ask for options, how to validate before integrating, when to update the docs. That accumulated discipline is what separates a team that builds with AI reliably from one that gets lucky sometimes. The goal is not to use AI more — it is to use it in a way that compounds. Each well-run cycle makes the next one faster and cleaner.",
+      insight:
+        "Reliable AI-assisted building comes from workflow, not instinct.",
+      layout: "interactive-quiz",
+      gameType: "rank-order",
+      accentColor: designTokens.colors.accent.coral,
+      accentSurface: designTokens.colors.surface.coralSoft,
+      gameConfig: {
+        type: "rank-order",
+        instruction: "Arrange the complete build cycle in the right order.",
+        items: [
+          {
+            id: "1",
+            text: "Decide what to build with AI and what to build through engineering",
+          },
+          {
+            id: "2",
+            text: "Write the plan, tasks, and test cases",
+          },
+          {
+            id: "3",
+            text: "Define shared contracts and reusable components",
+          },
+          {
+            id: "4",
+            text: "Generate the feature in scoped parts",
+          },
+          {
+            id: "5",
+            text: "Validate each part against test cases",
+          },
+          {
+            id: "6",
+            text: "Integrate and test connected behavior",
+          },
+          {
+            id: "7",
+            text: "Update the spec with decisions made",
+          },
+          {
+            id: "8",
+            text: "Polish edge cases, states, and production readiness",
+          },
+        ],
+        correctOrder: ["1", "2", "3", "4", "5", "6", "7", "8"],
+        explanation:
+          "This is the full cycle. Each step makes the next one faster and cleaner.",
       },
     },
   ],

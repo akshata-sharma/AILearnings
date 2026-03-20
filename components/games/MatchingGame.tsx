@@ -2,7 +2,8 @@
 
 import { useReducer, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
-import type { MatchConfig } from "@/types/learning";
+import type { MatchConfig, MatchFollowingConfig } from "@/types/learning";
+import { matchFollowingToMatch } from "@/lib/gameConfigAdapters";
 import { shuffle, validateMatches } from "@/lib/gameHelpers";
 import { useConfetti } from "@/lib/useConfetti";
 import ConfettiCanvas from "@/components/shared/ConfettiCanvas";
@@ -10,7 +11,7 @@ import { useSiteContext } from "@/lib/SiteContext";
 import { designTokens } from "@/lib/design-tokens";
 
 interface Props {
-  config: MatchConfig;
+  config: MatchConfig | MatchFollowingConfig;
   sectionId: string;
   accentColor: string;
   onNextSection?: () => void;
@@ -71,16 +72,19 @@ export default function MatchingGame({
   accentColor,
   onNextSection,
 }: Props) {
+  const cfg =
+    config.type === "match-following" ? matchFollowingToMatch(config) : config;
+
   const { markSectionComplete, unmarkSectionComplete } = useSiteContext();
   const { canvasRef, triggerConfetti } = useConfetti();
 
   const shuffledPrompts = useMemo(
-    () => shuffle(config.pairs.map((p) => p.prompt)),
-    [config.pairs]
+    () => shuffle(cfg.pairs.map((p) => p.prompt)),
+    [cfg.pairs]
   );
   const shuffledMatches = useMemo(
-    () => shuffle(config.pairs.map((p) => p.match)),
-    [config.pairs]
+    () => shuffle(cfg.pairs.map((p) => p.match)),
+    [cfg.pairs]
   );
 
   const [state, dispatch] = useReducer(reducer, {
@@ -135,17 +139,17 @@ export default function MatchingGame({
     [state.status, state.selectedPrompt, matchedMatchValues, promptToMatchReverse]
   );
 
-  const allMatched = Object.keys(state.matches).length === config.pairs.length;
+  const allMatched = Object.keys(state.matches).length === cfg.pairs.length;
 
   const handleCheck = useCallback(() => {
     if (!allMatched) return;
-    const result = validateMatches(state.matches, config.pairs);
+    const result = validateMatches(state.matches, cfg.pairs);
     dispatch({ type: "CHECK", isCorrect: result.isCorrect, pairResults: result.pairResults });
     if (result.isCorrect) {
       markSectionComplete(sectionId);
       triggerConfetti();
     }
-  }, [allMatched, state.matches, config.pairs, sectionId, markSectionComplete, triggerConfetti]);
+  }, [allMatched, state.matches, cfg.pairs, sectionId, markSectionComplete, triggerConfetti]);
 
   const handleReplay = useCallback(() => {
     dispatch({ type: "RESET" });
@@ -194,7 +198,7 @@ export default function MatchingGame({
           color: "var(--color-text-primary)",
         }}
       >
-        {config.instruction}
+        {cfg.instruction}
       </p>
 
       {/* Two-column matching area */}
@@ -412,12 +416,12 @@ export default function MatchingGame({
           >
             All pairs matched correctly!
           </p>
-          {config.explanation && (
+          {cfg.explanation && (
             <p
               className="mt-1"
               style={{ fontSize: "var(--text-body-sm)", color: "var(--color-text-secondary)" }}
             >
-              {config.explanation}
+              {cfg.explanation}
             </p>
           )}
         </motion.div>

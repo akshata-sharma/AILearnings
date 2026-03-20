@@ -11,6 +11,7 @@ import DifferenceGame from "@/components/games/DifferenceGame";
 import OrderingGame from "@/components/games/OrderingGame";
 import ClassificationGame from "@/components/games/ClassificationGame";
 import MatchingGame from "@/components/games/MatchingGame";
+import { spotTheDifferenceToDifference } from "@/lib/gameConfigAdapters";
 import { designTokens } from "@/lib/design-tokens";
 
 interface SectionRendererProps {
@@ -90,6 +91,7 @@ function GameDispatch({
         />
       );
     case "ordering":
+    case "rank-order":
       return (
         <OrderingGame
           config={section.gameConfig}
@@ -99,6 +101,7 @@ function GameDispatch({
         />
       );
     case "classification":
+    case "categorize":
       return (
         <ClassificationGame
           config={section.gameConfig}
@@ -108,9 +111,19 @@ function GameDispatch({
         />
       );
     case "matching":
+    case "match-following":
       return (
         <MatchingGame
           config={section.gameConfig}
+          sectionId={section.id}
+          accentColor={section.accentColor}
+          onNextSection={onNextSection}
+        />
+      );
+    case "spot-the-difference":
+      return (
+        <DifferenceGame
+          config={spotTheDifferenceToDifference(section.gameConfig)}
           sectionId={section.id}
           accentColor={section.accentColor}
           onNextSection={onNextSection}

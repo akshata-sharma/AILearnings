@@ -329,6 +329,17 @@ export default function OrderingGame({
           >
             Perfect order!
           </p>
+          {config.explanation && (
+            <p
+              className="mt-2"
+              style={{
+                fontSize: "var(--text-body-sm)",
+                color: "var(--color-text-secondary)",
+              }}
+            >
+              {config.explanation}
+            </p>
+          )}
         </motion.div>
       )}
 

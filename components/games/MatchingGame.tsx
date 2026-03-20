@@ -441,7 +441,7 @@ export default function MatchingGame({
             className="font-semibold"
             style={{ fontSize: "var(--text-body)", color: designTokens.colors.feedback.error }}
           >
-            Some pairs don't match — check the highlighted ones.
+            Some pairs don&apos;t match — check the highlighted ones.
           </p>
         </motion.div>
       )}

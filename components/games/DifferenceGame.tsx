@@ -274,7 +274,7 @@ function ImagePanel({
 }) {
   return (
     <div
-      className="flex flex-col overflow-hidden"
+      className="flex flex-col"
       style={{
         backgroundColor: designTokens.components.card.background,
         border: designTokens.components.card.border,
@@ -282,12 +282,18 @@ function ImagePanel({
       }}
     >
       <PanelHeader label={label} accentColor={accentColor} />
-      <div className="relative aspect-[4/3]">
+      <div
+        className="relative aspect-[4/3] overflow-hidden"
+        style={{
+          borderBottomLeftRadius: designTokens.radius.lg,
+          borderBottomRightRadius: designTokens.radius.lg,
+        }}
+      >
         <Image
           src={src}
           alt={label}
           fill
-          className="object-cover"
+          className="object-contain"
           sizes="(max-width: 640px) 100vw, 50vw"
         />
       </div>
@@ -312,7 +318,7 @@ function ClickableImagePanel({
 }) {
   return (
     <div
-      className="flex flex-col overflow-hidden"
+      className="flex flex-col"
       style={{
         backgroundColor: designTokens.components.card.background,
         border: designTokens.components.card.border,
@@ -329,13 +335,21 @@ function ClickableImagePanel({
         className="relative aspect-[4/3] cursor-crosshair"
         onClick={onClick}
       >
-        <Image
-          src={src}
-          alt={label}
-          fill
-          className="object-cover"
-          sizes="(max-width: 640px) 100vw, 50vw"
-        />
+        <div
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            borderBottomLeftRadius: designTokens.radius.lg,
+            borderBottomRightRadius: designTokens.radius.lg,
+          }}
+        >
+          <Image
+            src={src}
+            alt={label}
+            fill
+            className="object-contain"
+            sizes="(max-width: 640px) 100vw, 50vw"
+          />
+        </div>
 
         <AnimatePresence>
           {hotspots.map(
